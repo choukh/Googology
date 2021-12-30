@@ -1,0 +1,13 @@
+-R . GOO
+
+Ordinal/Ord.v
+Ordinal/WellFormed.v
+Ordinal/Operation.v
+Ordinal/Recursion.v
+Ordinal/Arithmetic.v
+Ordinal/Tetration.v
+Ordinal/Iteration.v
+Ordinal/EpsilonNumbers.v
+Ordinal/VeblenFunction.v
+
+Function/FGH.v
