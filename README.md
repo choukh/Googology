@@ -1,14 +1,10 @@
-# Coq Formalized Googology
+# Constructive ordinals and formalized googology
 
-## Requirement
-```
-Coq 8.14.1
-```
-
-## Compile
-```
-make
-```
+## Feature
+- Constructive approach based on CIC
+- Does not require axioms or LEM
+- Up to Feferman–Schütte ordinal
+- Ready for googology function such as fast growing hierarchy
 
 ## Contents
 
@@ -51,3 +47,13 @@ make
 - Function/
   - FGH.v (TODO)
     - Fast growing hierachy that suitable for ordinals we defined
+
+## Requirement
+```
+Coq 8.14.1
+```
+
+## Compile
+```
+make
+```
