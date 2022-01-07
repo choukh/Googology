@@ -6,10 +6,11 @@ Require Import GOO.Ordinal.Operation.
 Require Import GOO.Ordinal.Recursion.
 Require Import GOO.Ordinal.Arithmetic.
 
-Local Open Scope 序数符号域.
+Local Open Scope 序数域.
+Local Open Scope 序数算术域.
 
 Definition 左迭代 α β := 递归 (幂运算 α) α β.
-Notation "α ^^ᴸ β" := (左迭代 α β) (at level 25) : 序数符号域.
+Notation "α ^^ᴸ β" := (左迭代 α β) (at level 25) : 序数算术域.
 
 Lemma 左迭代零次 : ∀ α, α ^^ᴸ [0] = α.
 Proof. easy. Qed.
@@ -55,7 +56,7 @@ Proof with auto.
 Qed.
 
 Definition 右迭代 α β := 递归 (λ ξ, ξ ^ α) α β.
-Notation "α ^^ᴿ β" := (右迭代 α β) (at level 25) : 序数符号域.
+Notation "α ^^ᴿ β" := (右迭代 α β) (at level 25) : 序数算术域.
 
 Lemma 右迭代零次 : ∀ α, α ^^ᴿ [0] = α.
 Proof. easy. Qed.
@@ -78,7 +79,7 @@ Qed.
 
 (* α ^ α ^ ... ^ α ^ τ *)
 Definition 顶迭代 := λ α β τ, 递归 (幂运算 α) τ β.
-Notation "α ^^ᵀ β" := (顶迭代 α β) (at level 25) : 序数符号域.
+Notation "α ^^ᵀ β" := (顶迭代 α β) (at level 25) : 序数域.
 
 Theorem 顶迭代零次 : ∀ τ α, (α ^^ᵀ [0]) τ = τ.
 Proof. easy. Qed.

@@ -3,7 +3,7 @@
 Require Import GOO.Ordinal.Ord.
 Require Import GOO.Ordinal.WellFormed.
 
-Local Open Scope 序数符号域.
+Local Open Scope 序数域.
 
 Notation 保良构 F := (∀ α, 良构 α → 良构 (F α)).
 

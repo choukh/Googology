@@ -6,16 +6,20 @@ Require Import GOO.Ordinal.WellFormed.
 Require Import GOO.Ordinal.Operation.
 Require Import GOO.Ordinal.Recursion.
 
-Local Open Scope 序数符号域.
+Local Open Scope 序数域.
+
+Declare Scope 序数算术域.
+Delimit Scope 序数算术域 with oa.
+Local Open Scope 序数算术域.
 
 Definition 加法 α β := 递归 后继 α β.
-Notation "α + β" := (加法 α β) : 序数符号域.
+Notation "α + β" := (加法 α β) : 序数算术域.
 
 Definition 乘法 α β := 递归 (λ ξ, ξ + α) [0] β.
-Notation "α * β" := (乘法 α β) : 序数符号域.
+Notation "α * β" := (乘法 α β) : 序数算术域.
 
 Definition 幂运算 α β := 递归 (λ ξ, ξ * α) [1] β.
-Notation "α ^ β" := (幂运算 α β) : 序数符号域.
+Notation "α ^ β" := (幂运算 α β) : 序数算术域.
 
 Lemma 加零 : ∀ α, α + [0] = α.
 Proof. easy. Qed.

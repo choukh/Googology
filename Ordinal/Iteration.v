@@ -7,7 +7,8 @@ Require Import GOO.Ordinal.Recursion.
 Require Import GOO.Ordinal.Arithmetic.
 Require Import GOO.Ordinal.Tetration.
 
-Local Open Scope 序数符号域.
+Local Open Scope 序数域.
+Local Open Scope 序数算术域.
 
 Fixpoint 迭代 {A : Type} (F : A → A) (a : A) (n : nat) : A :=
   match n with
@@ -25,7 +26,7 @@ Qed.
 Definition 无穷迭代 F := λ α, lim (λ n, 迭代 F α n).
 Notation Itω := 无穷迭代.
 
-Lemma 无穷迭代等于无穷递归 : ∀ F α, Itω F α ≃ 递归 F α ω.
+Lemma 无穷迭代弱等于无穷递归 : ∀ F α, Itω F α ≃ 递归 F α ω.
 Proof.
   intros. unfold Itω. simpl. split; constructor; intros n;
   apply 弱序_极限_介入 with n; rewrite 有穷迭代等于有限递归; reflexivity.
@@ -134,11 +135,31 @@ Qed.
 
 End Veblen不动点.
 
-Local Notation "F ⁰" := (最小不动点 F) (format "F ⁰", at level 6).
-Local Notation "F ¹" := (后继不动点 F) (format "F ¹", at level 6).
+Notation "F ⁰" := (最小不动点 F) (format "F ⁰", at level 6) : 序数域.
+Notation "F ¹" := (后继不动点 F) (format "F ¹", at level 6) : 序数域.
 
 Definition 不动点枚举 F := 递归 F¹ F⁰.
-Notation "F ′" := (不动点枚举 F) (format "F ′", at level 6) : 序数符号域.
+Notation "F ′" := (不动点枚举 F) (format "F ′", at level 6) : 序数域.
+
+Theorem 不动点枚举保函数外延 : ∀ f g, 序数嵌入 f → 序数嵌入 g → 
+  (∀ α, f α ≃ g α) → ∀ α, f′ α ≃ g′ α.
+Proof with auto.
+  intros * Ef Eg Heq. unfold 不动点枚举.
+  induction α as [|α IH|h IH].
+  - split; constructor; intros n; simpl.
+    + induction n. constructor.
+      simpl. unfold 最小不动点. rewrite Heq, <- 不动点为之... apply Eg...
+    + induction n. constructor.
+      simpl. unfold 最小不动点. rewrite <- Heq, <- 不动点为之... apply Ef...
+  - simpl. split; constructor; intros n.
+    + induction n; simpl.
+      * apply 弱序_极限_介入 with 0. simpl. rewrite <- 后继_弱保序, IH. easy.
+      * unfold 后继不动点 at 2. rewrite Heq, <- 不动点为之... apply Eg...
+    + induction n; simpl.
+      * apply 弱序_极限_介入 with 0. simpl. rewrite <- 后继_弱保序, IH. easy.
+      * unfold 后继不动点 at 2. rewrite <- Heq, <- 不动点为之... apply Ef...
+  - simpl. split; constructor; intros n; apply 弱序_极限_介入 with n; apply IH.
+Qed.
 
 Section 不动点枚举.
 Variable F : 序数 → 序数.

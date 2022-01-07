@@ -2,7 +2,7 @@
 
 Require Import GOO.Ordinal.Ord.
 
-Local Open Scope 序数符号域.
+Local Open Scope 序数域.
 
 Notation 递增序列 f := (∀ n m, (n < m)%nat → f n < f m).
 

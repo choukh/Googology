@@ -6,9 +6,9 @@ Require Import Coq.Classes.RelationClasses.
 
 Tactic Notation "split3" := split; [|split].
 
-Declare Scope 序数符号域.
-Delimit Scope 序数符号域 with ord.
-Local Open Scope 序数符号域.
+Declare Scope 序数域.
+Delimit Scope 序数域 with ord.
+Local Open Scope 序数域.
 
 Inductive 序数 : Set :=
   | 零 : 序数
@@ -16,7 +16,7 @@ Inductive 序数 : Set :=
   | 极限 : (nat → 序数) → 序数.
 
 Notation "∅" := 零.
-Notation "α ⁺" := (后继 α) (format "α ⁺", at level 6) : 序数符号域.
+Notation "α ⁺" := (后继 α) (format "α ⁺", at level 6) : 序数域.
 Notation lim := 极限.
 
 Fixpoint 前驱深度 α : Set :=
@@ -38,23 +38,23 @@ Fixpoint 前驱 α : 前驱深度 α → 序数 :=
     | existT _ n d => d ⇠ (f n)
     end
   end
-where "d ⇠ α" := (前驱 α d) : 序数符号域.
+where "d ⇠ α" := (前驱 α d) : 序数域.
 
 Reserved Infix "≤" (at level 70).
 Inductive 弱序 : 序数 → 序数 → Prop :=
   | 弱序_零 : ∀ β, ∅ ≤ β
   | 弱序_后继 : ∀ α β d, α ≤ d ⇠ β → α⁺ ≤ β
   | 弱序_极限 : ∀ f β, (∀ n, f n ≤ β) → lim f ≤ β
-where "α ≤ β" := (弱序 α β) : 序数符号域.
-Notation "α ≰ β" := (¬ 弱序 α β) (at level 70) : 序数符号域.
+where "α ≤ β" := (弱序 α β) : 序数域.
+Notation "α ≰ β" := (¬ 弱序 α β) (at level 70) : 序数域.
 
 Definition 强序 α β := ∃ d, α ≤ d ⇠ β.
-Notation "α < β" := (  强序 α β) : 序数符号域.
-Notation "α ≮ β" := (¬ 强序 α β) (at level 70) : 序数符号域.
+Notation "α < β" := (  强序 α β) : 序数域.
+Notation "α ≮ β" := (¬ 强序 α β) (at level 70) : 序数域.
 
 Definition 弱等 α β := α ≤ β ∧ β ≤ α.
-Notation "α ≃ β" := (  弱等 α β) (no associativity, at level 75) : 序数符号域.
-Notation "α ≄ β" := (¬ 弱等 α β) (no associativity, at level 75) : 序数符号域.
+Notation "α ≃ β" := (  弱等 α β) (no associativity, at level 75) : 序数域.
+Notation "α ≄ β" := (¬ 弱等 α β) (no associativity, at level 75) : 序数域.
 
 Lemma 序数等于其后继的1前驱 : ∀ α, α = (inl tt) ⇠ α⁺.
 Proof. easy. Qed.
@@ -291,7 +291,7 @@ Fixpoint 有限序数 n :=
   | O => ∅
   | S m => [m]⁺
   end
-where "[ n ]" := (有限序数 n) : 序数符号域.
+where "[ n ]" := (有限序数 n) : 序数域.
 
 Definition ω := lim 有限序数.
 

@@ -8,7 +8,8 @@ Require Import GOO.Ordinal.Arithmetic.
 Require Import GOO.Ordinal.Tetration.
 Require Import GOO.Ordinal.Iteration.
 
-Local Open Scope 序数符号域.
+Local Open Scope 序数域.
+Local Open Scope 序数算术域.
 
 Definition ε := (幂运算 ω)′.
 
@@ -32,7 +33,7 @@ Qed.
 Theorem ε_后继_ω塔 : ∀ α, ε α⁺ ≃ (ω ^^ᵀ ω) (ε α)⁺.
 Proof.
   intros. unfold ε, ω. rewrite 不动点枚举_后继, 顶迭代极限次.
-  rewrite 无穷迭代等于无穷递归. unfold ω. reflexivity.
+  rewrite 无穷迭代弱等于无穷递归. unfold ω. reflexivity.
 Qed.
 
 Theorem ε_极限 : ∀ f, ε (lim f) ≃ lim (λ n, ε (f n)).

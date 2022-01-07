@@ -9,5 +9,6 @@ Ordinal/Tetration.v
 Ordinal/Iteration.v
 Ordinal/EpsilonNumbers.v
 Ordinal/VeblenFunction.v
+Ordinal/ExtendedVeblenFunction.v
 
 Function/FGH.v

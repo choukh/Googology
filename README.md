@@ -3,7 +3,7 @@
 ## Feature
 - Constructive approach based on CIC
 - Does not require axioms or LEM
-- Up to Feferman–Schütte ordinal
+- Up to Large Veblen Ordinal
 - Ready for googology function such as fast growing hierarchy
 
 ## Contents
@@ -41,11 +41,13 @@
     - We proved that ε(α⁺) ≃ ω ^ ω ^ ... ^ ε(α)⁺ for all α but only for WF α, ε(α⁺) ≃ ε(α) ^^ ω can be proved
     - ζ is defined as ε' and η as ζ'
     - ε, ζ, η, ... are all normal and WF preserving
-  - VeblenFunction.v (TODO)
+  - VeblenFunction.v
     - Veblen function φ(α, β) is defined
     - Γ is defined as Itω(λ ξ, φ(ξ, 0))
+  - ExtendedVeblenFunction.v (TODO)
+    - SVO and LVO
 - Function/
-  - FGH.v (TODO)
+  - FGH.v
     - Fast growing hierachy that suitable for ordinals we defined
 
 ## Requirement

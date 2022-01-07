@@ -4,7 +4,7 @@ Require Import GOO.Ordinal.Ord.
 Require Import GOO.Ordinal.Operation.
 Require Import GOO.Ordinal.WellFormed.
 
-Local Open Scope 序数符号域.
+Local Open Scope 序数域.
 
 Fixpoint 递归 F α₀ α :=
   match α with
