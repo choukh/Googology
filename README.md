@@ -44,8 +44,8 @@
   - VeblenFunction.v
     - Veblen function φ(α, β) is defined
     - Γ is defined as Itω(λ ξ, φ(ξ, 0))
-  - ExtendedVeblenFunction.v (TODO)
-    - SVO and LVO
+  - ExtendedVeblenFunction.v
+    - SVO is defined
 - Function/
   - FGH.v
     - Fast growing hierachy that suitable for ordinals we defined
