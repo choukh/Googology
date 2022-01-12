@@ -3,7 +3,7 @@
 ## Feature
 - Constructive approach based on CIC
 - Does not require axioms or LEM
-- Up to Large Veblen Ordinal
+- Up to Small Veblen Ordinal
 - Ready for googology function such as fast growing hierarchy
 
 ## Contents
