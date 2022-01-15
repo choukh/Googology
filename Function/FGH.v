@@ -9,7 +9,7 @@ Require Import GOO.Ordinal.Recursion.
 Require Import GOO.Ordinal.Arithmetic.
 Require Import GOO.Ordinal.Iteration.
 Require Import GOO.Ordinal.VeblenFunction.
-Require Import GOO.Ordinal.ExtendedVeblenFunction.
+Require GOO.Ordinal.ExtendedVeblenFunction.
 
 Local Open Scope 序数域.
 
@@ -211,11 +211,6 @@ Proof.
   unfold 迭代. reflexivity.
 Qed.
 
-Fact f__φ_1_0_ω_0__2 : f (φ [1] [0] ω [0]) 2 = f (φ [1] [0] [2] [0]) 2.
-Proof.
-  unfold φ. simpl veblen. rewrite f_极限. reflexivity.
-Qed.
-
 Fact f__φ_1_1_0_0__2 : f (φ [1] [1] [0] [0]) 2 = f (φ [1] [0] (φ [1] [0] [0] [0]) [0]) 2.
 Proof.
   unfold φ. simpl veblen.
@@ -231,6 +226,8 @@ Proof.
 Qed.
 
 End 四元Veblen层级.
+
+Import ExtendedVeblenFunction.
 
 Fact f_SVO_0 : f SVO 0 = 1.
 Proof. reflexivity. Qed.

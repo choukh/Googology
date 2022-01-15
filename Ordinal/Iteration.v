@@ -218,7 +218,7 @@ Proof.
   eapply 强序_极限_介入 with 1. simpl. apply Asc0.
 Qed.
 
-Lemma 不动点枚举在后继处强放大 : 良构后继处强放大 F′.
+Lemma 不动点枚举在良构后继处强放大 : 良构后继处强放大 F′.
 Proof.
   intros α WFα. unfold 不动点枚举. simpl. apply 强弱传递 with (F¹ α).
   - unfold 后继不动点. eapply 强序_极限_介入 with 1. simpl. apply Asc1. apply WFα.
@@ -232,9 +232,20 @@ Proof.
   - apply 后继不动点_强放大.
   - apply 后继不动点_弱保序. apply 不动点枚举为序数嵌入.
   - apply 后继不动点_保良构. apply 不动点枚举为序数嵌入.
-    apply 不动点枚举在后继处强放大. apply WF.
+    apply 不动点枚举在良构后继处强放大. apply WF.
   - apply 最小不动点良构. apply 不动点枚举为序数嵌入.
     apply 不动点枚举在零处强放大. apply WF.
+Qed.
+
+Lemma 不动点飞升 : ∀ n, F [n] < F′ ∅.
+Proof.
+  intros. unfold 不动点枚举, 递归, 最小不动点.
+  apply 强弱传递 with (F [S n]). apply F嵌入. simpl. auto.
+  apply 弱序_极限_介入 with (S (S n)). simpl. apply F嵌入.
+  induction n; simpl.
+  - apply 小于即后继小于等于. apply Asc0.
+  - apply F嵌入 in IHn. eapply 弱序_传递. 2: apply IHn.
+    apply 小于即后继小于等于. apply Asc1. apply 有限序数良构.
 Qed.
 
 End 不动点枚举.

@@ -6,19 +6,19 @@ Local Open Scope 序数域.
 
 Notation 递增序列 f := (∀ n m, (n < m)%nat → f n < f m).
 
-Lemma 递增序列弱放大 : ∀ f n, 递增序列 f → [n] ≤ f n.
-Proof.
-  intros. induction n. constructor. apply 后继_弱保序 in IHn.
-  apply 弱序_传递 with (f n)⁺. apply IHn.
-  apply 小于即后继小于等于. apply H. auto.
-Qed.
-
 Fixpoint 良构 α : Prop :=
   match α with
   | ∅ => True
   | α⁺ => 良构 α
   | lim f => (∀ n, 良构 (f n)) ∧ 递增序列 f
   end.
+
+Lemma 递增序列弱放大 : ∀ f n, 递增序列 f → [n] ≤ f n.
+Proof.
+  intros. induction n. constructor. apply 后继_弱保序 in IHn.
+  apply 弱序_传递 with (f n)⁺. apply IHn.
+  apply 小于即后继小于等于. apply H. auto.
+Qed.
 
 Lemma 有限序数良构 : ∀ n, 良构 [n].
 Proof. induction n. easy. simpl. apply IHn. Qed.

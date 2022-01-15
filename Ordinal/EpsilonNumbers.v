@@ -68,7 +68,7 @@ Proof. apply 不动点枚举在零处强放大. apply 以ω为底的幂运算在
 
 Lemma ε在良构后继处强放大 : 良构后继处强放大 ε.
 Proof. 
-  apply 不动点枚举在后继处强放大. apply 幂运算为序数嵌入. auto.
+  apply 不动点枚举在良构后继处强放大. apply 幂运算为序数嵌入. auto.
   apply 以ω为底的幂运算在后继处强放大.
 Qed.
 

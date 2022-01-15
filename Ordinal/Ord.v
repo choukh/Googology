@@ -218,6 +218,9 @@ Fact 诉诸强序 : ∀ α β, α < β → α ≤ β.
 Proof. intros α β [d H]. apply 弱序_前驱_除去 with d. easy. Qed.
 Global Hint Resolve 诉诸强序 : core.
 
+Fact 诉诸强等 : ∀ α β, α = β → α ≃ β.
+Proof. intros. rewrite H. reflexivity. Qed.
+
 Fact 强序_反转 : ∀ α β, α < β → β ≰ α.
 Proof. intros * [d H1] H2. eapply 非弱序_反转_前驱; eassumption. Qed.
 
@@ -283,6 +286,18 @@ Proof.
     + destruct u. simpl. reflexivity.
     + simpl. apply 弱序_传递 with α. apply IH. easy.
   - econstructor. reflexivity.
+Qed.
+
+Lemma 强序_改写_左 : ∀ α {β γ}, α < β → α ≃ γ → γ < β.
+Proof.
+  intros. destruct H as [d H]. exists d.
+  rewrite <- H0. apply H.
+Qed.
+
+Lemma 强序_改写_右 : ∀ {α} β {γ}, α < β → β ≃ γ → α < γ.
+Proof.
+  intros. apply 小于即后继小于等于. rewrite <- H0.
+  apply 小于即后继小于等于. apply H.
 Qed.
 
 Reserved Notation "[ n ]".

@@ -1,6 +1,7 @@
 (* Copyright (c) 2022, choukh <choukyuhei@gmail.com> *)
 
 Require Import GOO.Ordinal.Ord.
+Require Import GOO.Ordinal.Recursion.
 Require Import GOO.Ordinal.Iteration.
 Require Import GOO.Ordinal.VeblenFunction.
 
@@ -32,17 +33,23 @@ Fixpoint 多元极限 {n} (f : @多元函数 n (nat → 序数)) : @多元函数
   | S m, f => λ α, 多元极限 (f α)
   end.
 
+Definition 极限复合 {n} (F: 序数 → 多元函数 n) (g : nat → 序数) : 多元函数 n :=
+  多元极限 (换首元 (λ n, F (g n))).
+Notation "F ∘ g" := (极限复合 F g) (format "F ∘ g", at level 9) : 序数域.
+
 Fixpoint veblen {n} (f : 多元函数 (S n)) : 多元函数 (S (S n)) :=
-  let fix inner (f : 多元函数 (S n)) (α : 序数) : 多元函数 (S n) :=
+  let fix 增元迭代 (f₁ : 多元函数 1) n : 多元函数 (S n) :=
+    match n with
+    | O => f₁
+    | S m => veblen (增元迭代 f₁ m)
+    end in
+  (fix inner (f : 多元函数 (S n)) (α : 序数) : 多元函数 (S n) :=
     match α with
     | ∅ => f
-    | α⁺ => let fix 增元迭代 (f₁ : 多元函数 1) n : 多元函数 (S n) :=
-      match n with
-      | O => f₁
-      | S m => veblen (增元迭代 f₁ m)
-      end in 增元迭代 (λ β, inner f α β ∅..)′ n
-    | lim g => 多元极限 (换首元 (λ n, inner f (g n)))
-    end in inner f.
+    | α⁺ => 增元迭代 (λ β, inner f α β ∅..)′ n
+    | lim g => 增元迭代 (递归 (λ β, (inner f)∘g β⁺ ∅..) ((inner f)∘g ∅..)) n
+    end
+  ) f.
 
 Definition φ n : 多元函数 n :=
   match n with

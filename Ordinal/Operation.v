@@ -18,7 +18,7 @@ Notation 强保序 F := (∀ α β, α < β → F α < F β).
 
 Notation 后继处递增 F := (∀ α, F α < F α⁺).
 Notation 前驱处递增 F := (∀ α d, F (d ⇠ α)⁺ ≤ F α).
-Notation 极限处连续 F := (∀ f, F (lim f) = lim (λ n, F (f n))).
+Notation 极限处连续 F := (∀ f, F (lim f) ≃ lim (λ n, F (f n))).
 
 (* normal function *)
 Definition 序数嵌入 F := 弱保序 F ∧ 强保序 F ∧ 极限处连续 F.
@@ -36,4 +36,14 @@ Proof.
   - apply 后继_弱保序 in IH. eapply 弱序_传递. apply IH.
     apply 小于即后继小于等于. apply OP. easy.
   - rewrite Conti. constructor. intros n. eapply 弱序_极限_介入. apply IH.
+Qed.
+
+Lemma 函数外延保序数嵌入 : ∀ f g, (∀ α, f α ≃ g α) → 序数嵌入 f → 序数嵌入 g.
+Proof.
+  intros f g Heq Hf. split3.
+  - intros α β H. rewrite <- Heq, <- Heq. apply Hf. apply H.
+  - intros α β H. apply 强弱传递 with (f β). 2: apply Heq.
+    apply (强序_改写_左 (f α)). apply Hf. apply H. apply Heq.
+  - intros h. rewrite <- Heq. destruct Hf as [_ [_ Conti]]. rewrite Conti.
+    split; constructor; intros n; apply 弱序_极限_介入 with n; rewrite Heq; reflexivity.
 Qed.
