@@ -46,6 +46,8 @@
     - Γ is defined as Itω(λ ξ, φ(ξ, 0))
   - ExtendedVeblenFunction.v
     - SVO is defined
+  - TransfiniteVeblenFunction.v
+    - TODO
 - Function/
   - FGH.v
     - Fast growing hierachy that suitable for ordinals we defined

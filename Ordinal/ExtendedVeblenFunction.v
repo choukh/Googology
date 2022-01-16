@@ -37,19 +37,18 @@ Definition 极限复合 {n} (F: 序数 → 多元函数 n) (g : nat → 序数) 
   多元极限 (换首元 (λ n, F (g n))).
 Notation "F ∘ g" := (极限复合 F g) (format "F ∘ g", at level 9) : 序数域.
 
-Fixpoint veblen {n} (f : 多元函数 (S n)) : 多元函数 (S (S n)) :=
+Fixpoint veblen {n} : 多元函数 (S n) → 多元函数 (S (S n)) :=
   let fix 增元迭代 (f₁ : 多元函数 1) n : 多元函数 (S n) :=
     match n with
     | O => f₁
     | S m => veblen (增元迭代 f₁ m)
     end in
-  (fix inner (f : 多元函数 (S n)) (α : 序数) : 多元函数 (S n) :=
+  fix inner (f : 多元函数 (S n)) (α : 序数) : 多元函数 (S n) :=
     match α with
     | ∅ => f
     | α⁺ => 增元迭代 (λ β, inner f α β ∅..)′ n
     | lim g => 增元迭代 (递归 (λ β, (inner f)∘g β⁺ ∅..) ((inner f)∘g ∅..)) n
-    end
-  ) f.
+    end.
 
 Definition φ n : 多元函数 n :=
   match n with
@@ -66,14 +65,14 @@ Definition SVO := lim (λ n, φ (S n) [1] ∅..).
 Fact φ_0 : φ 0 = ∅.
 Proof. reflexivity. Qed.
 
-Fact φ_1 : ∀ α, φ 1 α = cantor ∅ α.
+Fact φ_1 : φ 1 = cantor ∅.
 Proof. reflexivity. Qed.
 
-Fact φ_2 : ∀ α β, φ 2 α β = 二元.φ α β.
+Fact φ_2 : φ 2 = 二元.φ.
 Proof. reflexivity. Qed.
 
-Fact φ_3 : ∀ α β γ, φ 3 α β γ = 三元.φ α β γ.
+Fact φ_3 : φ 3 = 三元.φ.
 Proof. reflexivity. Qed.
 
-Fact φ_4 : ∀ α β γ δ, φ 4 α β γ δ = 四元.φ α β γ δ.
+Fact φ_4 : φ 4 = 四元.φ.
 Proof. reflexivity. Qed.
