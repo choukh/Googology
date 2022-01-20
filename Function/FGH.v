@@ -238,5 +238,5 @@ Proof. reflexivity. Qed.
 Fact f_SVO_2 : f SVO 2 = 8.
 Proof. reflexivity. Qed.
 
-Fact f_SVO_n : ∀ n, f SVO n = f (φ (S n) [1] ∅..) n.
+Fact f_SVO_n : ∀ n, f SVO n = f (φ n [1] ∅..) n.
 Proof. reflexivity. Qed.

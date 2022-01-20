@@ -53,6 +53,11 @@ Proof.
   apply 弱序_极限_介入 with n. apply 递增序列弱放大. apply H.
 Qed.
 
+Corollary 递增序列极限大于零 : ∀ f, 递增序列 f → ∅ < lim f.
+Proof.
+  intros. eapply 强弱传递 with ω. auto. apply 递增序列极限大于等于ω. apply H.
+Qed.
+
 Lemma 递增序列极限内有任意大的项 : ∀ α f, 递增序列 f → α < lim f → ∃ n, α < f n.
 Proof with auto.
   intros α f Inc H. induction α as [|α IH|g IH].
