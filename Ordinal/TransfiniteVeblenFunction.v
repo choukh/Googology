@@ -31,7 +31,7 @@ Proof. reflexivity. Qed.
 Fact φ_1atω : φ [1] 0 ∅ = SVO.
 Proof. reflexivity. Qed.
 
-Fact φ_Satω : ∀ α, φ α⁺ 0 ∅ = lim (λ n, φ α n [1] ∅..).
+Theorem φ_Satω : ∀ α, φ α⁺ 0 ∅ = lim (λ n, φ α n [1] ∅..).
 Proof. reflexivity. Qed.
 
 Fact φ_1atω_1at0 : φ [1] 0 [1] = lim (λ n, 多元φ n SVO⁺ ∅..).
@@ -70,16 +70,18 @@ Admitted.
 Fact φ_Satω_1atSn_Xat0 : ∀ α n x, φ α⁺ (S n) [1] ∅.._ x = (λ ξ, φ α⁺ (S n) ∅ ξ ∅..)′ x.
 Admitted.
 
-Fact φ_Satω_SatSn_Xat0 : ∀ α n β x, φ α⁺ (S n) β⁺ ∅.._ x = (λ ξ, φ α⁺ (S n) β ξ ∅..)′ x.
+Theorem φ_Satω_SatSn_Xat0 : ∀ α n β x, φ α⁺ (S n) β⁺ ∅.._ x = (λ ξ, φ α⁺ (S n) β ξ ∅..)′ x.
 Admitted.
 
-Fact φ_Satω_LatSn_0at0 : ∀ α n f, φ α⁺ (S n) (lim f) ∅.._ ∅ = lim (λ m, φ α⁺ (S n) (f m) ∅.._ ∅).
+(* Theorem φ_Satω_LatSn_Xat0 : ∀ α n f, φ α⁺ (S n) (lim f) ∅.._ = 递归 (). *)
+
+Corollary φ_Satω_LatSn_0at0 : ∀ α n f, φ α⁺ (S n) (lim f) ∅.._ ∅ = lim (λ m, φ α⁺ (S n) (f m) ∅.._ ∅).
 Admitted.
 
-Fact φ_Satω_LatSn_Sat0 : ∀ α n f β, φ α⁺ (S n) (lim f) ∅.._ β⁺ = lim (λ m, φ α⁺ (S n) (f m) (φ α⁺ (S n) (lim f) ∅.._ β)⁺ ∅..).
+Corollary φ_Satω_LatSn_Sat0 : ∀ α n f β, φ α⁺ (S n) (lim f) ∅.._ β⁺ = lim (λ m, φ α⁺ (S n) (f m) (φ α⁺ (S n) (lim f) ∅.._ β)⁺ ∅..).
 Admitted.
 
-Fact φ_Satω_LatSn_Lat0 : ∀ α n f g, φ α⁺ (S n) (lim f) ∅.._ (lim g) = lim (λ m, φ α⁺ (S n) (lim f) ∅.._ (g m)).
+Corollary φ_Satω_LatSn_Lat0 : ∀ α n f g, φ α⁺ (S n) (lim f) ∅.._ (lim g) = lim (λ m, φ α⁺ (S n) (lim f) ∅.._ (g m)).
 Admitted.
 
 Fact φ_Latω : ∀ f, φ (lim f) 0 ∅ = lim (λ n, φ (f n) 0 ∅).
