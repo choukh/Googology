@@ -83,6 +83,9 @@ Proof. reflexivity. Qed.
 Lemma f_Z_eq_f_Z_z : ∀ n (f : 多元函数 (S n) 序数), f ∅.. = f ∅.._ ∅.
 Proof. intros. induction n. reflexivity. simpl. rewrite <- IHn. reflexivity. Qed.
 
+Lemma f_Z_eq_f_z_Z : ∀ n (f : 多元函数 (S n) 序数), f ∅.. = f ∅ ∅...
+Proof. intros. induction n. reflexivity. simpl. rewrite <- IHn. reflexivity. Qed.
+
 Lemma veblen_z : ∀ n (f : 多元函数 (S n) 序数), veblen f ∅ = f.
 Proof. destruct n; reflexivity. Qed.
 

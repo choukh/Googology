@@ -8,7 +8,7 @@ Require Import GOO.Ordinal.ExtendedVeblenFunction.
 
 Local Open Scope 序数域.
 
-Definition ω元φ := ExtendedVeblenFunction.φ.
+Notation ω元φ := ExtendedVeblenFunction.φ.
 Notation ω元函数 := (∀ n, 多元函数 (S n) 序数).
 Definition ω多元函数 n := 多元函数 (S n) (ω元函数).
 
@@ -18,7 +18,7 @@ Fixpoint veblen (f : ω元函数) α n : 多元函数 (S n) 序数 := match α w
   | ∅ => f n
   | α⁺ =>
     let h₀ := lim (λ n, veblen f α n [1] ∅..) in
-    let h := λ β, lim (λ n, f n β⁺ ∅..) in
+    let h := λ β, lim (λ n, veblen f α n β⁺ ∅..) in
     增元迭代 (递归 h h₀) n
   | lim g =>
     let h₀ := lim (λ n, veblen f (g n) 0 ∅) in
@@ -28,22 +28,31 @@ Fixpoint veblen (f : ω元函数) α n : 多元函数 (S n) 序数 := match α w
 
 Definition φ := veblen ω元φ.
 
-Theorem φ_z_X : ∀ n, φ ∅ n = ω元φ n.
+Fact φ_z_X : ∀ n, φ ∅ n = ω元φ n.
 Proof. reflexivity. Qed.
+
+Theorem φ_x_n_Z : ∀ α n, φ α n ∅.. = φ α 0 ∅.
+Proof.
+  intros. destruct α.
+  - induction n. reflexivity. rewrite φ_z_X in *. simpl.
+    rewrite ExtendedVeblenFunction.φ_z_X, <- f_Z_eq_f_z_Z, IHn. reflexivity.
+  - unfold φ, veblen. rewrite f_Z_eq_f_Z_z, 增元迭代_Z_x. reflexivity.
+  - unfold φ, veblen. rewrite f_Z_eq_f_Z_z, 增元迭代_Z_x. reflexivity.
+Qed.
 
 Fact φ_1_Z : φ [1] 0 ∅ = SVO.
 Proof. reflexivity. Qed.
 
-Theorem φ_s_Z : ∀ α, φ α⁺ 0 ∅ = lim (λ n, φ α n [1] ∅..).
+Fact φ_s_Z : ∀ α, φ α⁺ 0 ∅ = lim (λ n, φ α n [1] ∅..).
 Proof. reflexivity. Qed.
 
 Fact φ_1_Z_1 : φ [1] 0 [1] = lim (λ n, ω元φ n SVO⁺ ∅..).
 Proof. reflexivity. Qed.
 
-Fact φ_s_Z_1 : ∀ α, φ α⁺ 0 [1] = lim (λ n, ω元φ n (φ α⁺ 0 ∅)⁺ ∅..).
+Fact φ_s_Z_1 : ∀ α, φ α⁺ 0 [1] = lim (λ n, φ α n (φ α⁺ 0 ∅)⁺ ∅..).
 Proof. reflexivity. Qed.
 
-Fact φ_s_Z_s : ∀ α β, φ α⁺ 0 β⁺ = lim (λ n, ω元φ n (φ α⁺ 0 β)⁺ ∅..).
+Fact φ_s_Z_s : ∀ α β, φ α⁺ 0 β⁺ = lim (λ n, φ α n (φ α⁺ 0 β)⁺ ∅..).
 Proof. reflexivity. Qed.
 
 Fact φ_s_Z_l : ∀ α f, φ α⁺ 0 (lim f) = lim (λ n, φ α⁺ 0 (f n)).
@@ -67,25 +76,7 @@ Proof. reflexivity. Qed.
 Fact φ_x_Z_l_l : ∀ α f g, φ α⁺ 1 (lim f) (lim g) = lim (λ n, φ α⁺ 1 (lim f) (g n)).
 Proof. reflexivity. Qed.
 
-Theorem φ_s_Z_s_Z_x : ∀ α n β x, φ α⁺ (S n) β⁺ ∅.._ x = (λ ξ, φ α⁺ (S n) β ξ ∅..)′ x.
-Proof. intros. unfold φ, veblen, 增元迭代. rewrite veblen_s_Z_x. reflexivity. Qed.
-
-Theorem φ_s_Z_l_Z_x : ∀ α n f, φ α⁺ (S n) (lim f) ∅.._ =
-  递归 (λ ξ, lim (λ m, φ α⁺ (S n) (f m) ξ⁺ ∅..)) (lim (λ m, φ α⁺ (S n) (f m) ∅ ∅..)).
-Proof. intros. unfold φ, veblen, 增元迭代. rewrite veblen_l_Z_x. reflexivity. Qed.
-
-Corollary φ_s_Z_l_Z_z : ∀ α n f, φ α⁺ n (lim f) ∅.. = lim (λ m, φ α⁺ n (f m) ∅..).
-Proof. intros. destruct n. reflexivity. rewrite f_Z_eq_f_Z_z, φ_s_Z_l_Z_x. reflexivity. Qed.
-
-Corollary φ_s_Z_l_Z_s : ∀ α n f β, φ α⁺ (S n) (lim f) ∅.._ β⁺ =
-  lim (λ m, φ α⁺ (S n) (f m) (φ α⁺ (S n) (lim f) ∅.._ β)⁺ ∅..).
-Proof. intros. rewrite φ_s_Z_l_Z_x. reflexivity. Qed.
-
-Corollary φ_s_Z_l_Z_l : ∀ α n f g, φ α⁺ (S n) (lim f) ∅.._ (lim g) =
-  lim (λ m, φ α⁺ (S n) (lim f) ∅.._ (g m)).
-Proof. intros. rewrite φ_s_Z_l_Z_x. reflexivity. Qed.
-
-Theorem φ_l_Z : ∀ f, φ (lim f) 0 ∅ = lim (λ n, φ (f n) 0 ∅).
+Fact φ_l_Z : ∀ f, φ (lim f) 0 ∅ = lim (λ n, φ (f n) 0 ∅).
 Proof. reflexivity. Qed.
 
 Fact φ_l_Z_1 : ∀ f, φ (lim f) 0 [1] = lim (λ n, φ (f n) 0 (φ (lim f) 0 ∅)⁺).
@@ -114,6 +105,24 @@ Proof. reflexivity. Qed.
 
 Fact φ_l_Z_l_l : ∀ f g h, φ (lim f) 1 (lim g) (lim h) = lim (λ n, φ (lim f) 1 (lim g) (h n)).
 Proof. reflexivity. Qed.
+
+Theorem φ_s_Z_s_Z_x : ∀ α n β x, φ α⁺ (S n) β⁺ ∅.._ x = (λ ξ, φ α⁺ (S n) β ξ ∅..)′ x.
+Proof. intros. unfold φ, veblen, 增元迭代. rewrite veblen_s_Z_x. reflexivity. Qed.
+
+Theorem φ_s_Z_l_Z_x : ∀ α n f, φ α⁺ (S n) (lim f) ∅.._ =
+  递归 (λ ξ, lim (λ m, φ α⁺ (S n) (f m) ξ⁺ ∅..)) (lim (λ m, φ α⁺ (S n) (f m) ∅ ∅..)).
+Proof. intros. unfold φ, veblen, 增元迭代. rewrite veblen_l_Z_x. reflexivity. Qed.
+
+Corollary φ_s_Z_l_Z_z : ∀ α n f, φ α⁺ n (lim f) ∅.. = lim (λ m, φ α⁺ n (f m) ∅..).
+Proof. intros. destruct n. reflexivity. rewrite f_Z_eq_f_Z_z, φ_s_Z_l_Z_x. reflexivity. Qed.
+
+Corollary φ_s_Z_l_Z_s : ∀ α n f β, φ α⁺ (S n) (lim f) ∅.._ β⁺ =
+  lim (λ m, φ α⁺ (S n) (f m) (φ α⁺ (S n) (lim f) ∅.._ β)⁺ ∅..).
+Proof. intros. rewrite φ_s_Z_l_Z_x. reflexivity. Qed.
+
+Corollary φ_s_Z_l_Z_l : ∀ α n f g, φ α⁺ (S n) (lim f) ∅.._ (lim g) =
+  lim (λ m, φ α⁺ (S n) (lim f) ∅.._ (g m)).
+Proof. intros. rewrite φ_s_Z_l_Z_x. reflexivity. Qed.
 
 Theorem φ_l_Z_s_Z_x : ∀ f n α x, φ (lim f) (S n) α⁺ ∅.._ x = (λ ξ, φ (lim f) (S n) α ξ ∅..)′ x.
 Proof. intros. unfold φ, veblen, 增元迭代. rewrite veblen_s_Z_x. reflexivity. Qed.
@@ -147,18 +156,18 @@ Fixpoint veblen (f : 序数 → ω元函数) (α : 序数) : 序数 → ω元函
   destruct α as [| |g].
   - apply f.
   - intros β n. simpl.
-    set (增元迭代 (λ β, veblen f α β n ∅..)′) as ω元.
+    set (增元迭代 (λ β, veblen f α β 0 ∅)′) as ω元.
     apply (ω加一元.veblen ω元 β).
   - intros β n. simpl.
-    set (lim (λ m, veblen f (g m) ∅ n ∅..)) as h₀.
-    set (λ β, lim (λ m, veblen f (g m) β⁺ n ∅..)) as h.
+    set (lim (λ m, veblen f (g m) ∅ 0 ∅)) as h₀.
+    set (λ β, lim (λ m, veblen f (g m) β⁺ 0 ∅)) as h.
     set (增元迭代 (递归 h h₀)) as ω元.
     apply (ω加一元.veblen ω元 β).
 Defined.
 
 Definition φ := veblen (ω加一元.φ).
 
-Theorem φ_z_X : φ ∅ = ω加一元.φ.
+Fact φ_z_X : φ ∅ = ω加一元.φ.
 Proof. reflexivity. Qed.
 
 Fact φ_1_Z : φ [1] ∅ 0 ∅ = Itω (λ ξ, φ ∅ ξ 0 ∅) ∅.
@@ -167,20 +176,29 @@ Proof. reflexivity. Qed.
 Fact φ_1_Z_x : φ [1] ∅ 0 = (λ β, φ ∅ β 0 ∅)′.
 Proof. reflexivity. Qed.
 
-Theorem φ_s_Z_x : ∀ α, φ α⁺ ∅ 0 = (λ β, φ α β 0 ∅)′.
+Fact φ_s_Z_x : ∀ α, φ α⁺ ∅ 0 = (λ β, φ α β 0 ∅)′.
 Proof. reflexivity. Qed.
 
-Theorem φ_l_Z_x : ∀ f, φ (lim f) ∅ 0 =
+Fact φ_l_Z_x : ∀ f, φ (lim f) ∅ 0 =
   递归 (λ ξ, lim (λ m, φ (f m) ξ⁺ 0 ∅)) (lim (λ m, φ (f m) ∅ 0 ∅)).
 Proof. reflexivity. Qed.
 
-(* Lemma test : ∀ n, ω多元函数 () *)
+Fact φ_x_s_Z : ∀ α β, φ α β⁺ 0 ∅ = lim (λ n, φ α β n [1] ∅..).
+Proof. destruct α; reflexivity. Qed.
 
-Theorem φ_x_s_Z_z : ∀ α β, φ α β⁺ 0 ∅ = lim (λ n, φ α β n [1] ∅..).
-Proof.
-  intros. destruct α. reflexivity.
-  unfold φ, veblen. simpl ω加一元.veblen.
-  
-Admitted.
+Fact φ_x_s_Z_s : ∀ α β γ, φ α β⁺ 0 γ⁺ = lim (λ n, φ α β n (φ α β⁺ 0 γ)⁺ ∅..).
+Proof. destruct α; reflexivity. Qed.
+
+Fact φ_x_s_Z_l : ∀ α β f, φ α β⁺ 0 (lim f) = lim (λ n, φ α β⁺ 0 (f n)).
+Proof. destruct α; reflexivity. Qed.
+
+Fact φ_x_l_Z : ∀ α f, φ α (lim f) 0 ∅ = lim (λ n, φ α (f n) 0 ∅).
+Proof. destruct α; reflexivity. Qed.
+
+Fact φ_x_l_Z_1 : ∀ α f, φ α (lim f) 0 [1] = lim (λ n, φ α (f n) 0 (φ α (lim f) 0 ∅)⁺).
+Proof. destruct α; reflexivity. Qed.
+
+Fact φ_x_l_Z_s : ∀ α f β, φ α (lim f) 0 β⁺ = lim (λ n, φ α (f n) 0 (φ α (lim f) 0 β)⁺).
+Proof. destruct α; reflexivity. Qed.
 
 End ω加二元.
