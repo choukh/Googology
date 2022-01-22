@@ -64,27 +64,25 @@ Proof. reflexivity. Qed.
 Fact φ_Satω_Lat1_Lat0 : ∀ α f g, φ α⁺ 1 (lim f) (lim g) = lim (λ n, φ α⁺ 1 (lim f) (g n)).
 Proof. reflexivity. Qed.
 
-Fact φ_Satω_1atSn_0at0 : ∀ α n, φ α⁺ (S n) [1] ∅.._ ∅ = Itω (λ ξ, φ α⁺ (S n) ∅ ξ ∅..) ∅.
-Admitted.
-
-Fact φ_Satω_1atSn_Xat0 : ∀ α n x, φ α⁺ (S n) [1] ∅.._ x = (λ ξ, φ α⁺ (S n) ∅ ξ ∅..)′ x.
-Admitted.
-
 Theorem φ_Satω_SatSn_Xat0 : ∀ α n β x, φ α⁺ (S n) β⁺ ∅.._ x = (λ ξ, φ α⁺ (S n) β ξ ∅..)′ x.
-Admitted.
+Proof. intros. unfold φ, 广义多元φ. rewrite veblen_s_Z_x. reflexivity. Qed.
 
-(* Theorem φ_Satω_LatSn_Xat0 : ∀ α n f, φ α⁺ (S n) (lim f) ∅.._ = 递归 (). *)
+Theorem φ_Satω_LatSn_Xat0 : ∀ α n f, φ α⁺ (S n) (lim f) ∅.._ =
+  递归 (λ ξ, lim (λ m, φ α⁺ (S n) (f m) ξ⁺ ∅..)) (lim (λ m, φ α⁺ (S n) (f m) ∅ ∅..)).
+Proof. intros. unfold φ, 广义多元φ. rewrite veblen_l_Z_x. reflexivity. Qed.
 
-Corollary φ_Satω_LatSn_0at0 : ∀ α n f, φ α⁺ (S n) (lim f) ∅.._ ∅ = lim (λ m, φ α⁺ (S n) (f m) ∅.._ ∅).
-Admitted.
+Corollary φ_Satω_LatSn_0at0 : ∀ α n f, φ α⁺ n (lim f) ∅.. = lim (λ m, φ α⁺ n (f m) ∅..).
+Proof. intros. destruct n. reflexivity. rewrite f_Z_eq_f_Z_z, φ_Satω_LatSn_Xat0. reflexivity. Qed.
 
-Corollary φ_Satω_LatSn_Sat0 : ∀ α n f β, φ α⁺ (S n) (lim f) ∅.._ β⁺ = lim (λ m, φ α⁺ (S n) (f m) (φ α⁺ (S n) (lim f) ∅.._ β)⁺ ∅..).
-Admitted.
+Corollary φ_Satω_LatSn_Sat0 : ∀ α n f β, φ α⁺ (S n) (lim f) ∅.._ β⁺ =
+  lim (λ m, φ α⁺ (S n) (f m) (φ α⁺ (S n) (lim f) ∅.._ β)⁺ ∅..).
+Proof. intros. rewrite φ_Satω_LatSn_Xat0. reflexivity. Qed.
 
-Corollary φ_Satω_LatSn_Lat0 : ∀ α n f g, φ α⁺ (S n) (lim f) ∅.._ (lim g) = lim (λ m, φ α⁺ (S n) (lim f) ∅.._ (g m)).
-Admitted.
+Corollary φ_Satω_LatSn_Lat0 : ∀ α n f g, φ α⁺ (S n) (lim f) ∅.._ (lim g) =
+  lim (λ m, φ α⁺ (S n) (lim f) ∅.._ (g m)).
+Proof. intros. rewrite φ_Satω_LatSn_Xat0. reflexivity. Qed.
 
-Fact φ_Latω : ∀ f, φ (lim f) 0 ∅ = lim (λ n, φ (f n) 0 ∅).
+Theorem φ_Latω : ∀ f, φ (lim f) 0 ∅ = lim (λ n, φ (f n) 0 ∅).
 Proof. reflexivity. Qed.
 
 Fact φ_Latω_1at0 : ∀ f, φ (lim f) 0 [1] = lim (λ n, φ (f n) 0 (φ (lim f) 0 ∅)⁺).
@@ -113,6 +111,24 @@ Proof. reflexivity. Qed.
 
 Fact φ_Latω_Lat1_Lat0 : ∀ f g h, φ (lim f) 1 (lim g) (lim h) = lim (λ n, φ (lim f) 1 (lim g) (h n)).
 Proof. reflexivity. Qed.
+
+Theorem φ_Latω_SatSn_Xat0 : ∀ f n α x, φ (lim f) (S n) α⁺ ∅.._ x = (λ ξ, φ (lim f) (S n) α ξ ∅..)′ x.
+Proof. intros. unfold φ, 广义多元φ. rewrite veblen_s_Z_x. reflexivity. Qed.
+
+Theorem φ_Latω_LatSn_Xat0 : ∀ f n g, φ (lim f) (S n) (lim g) ∅.._ =
+  递归 (λ ξ, lim (λ m, φ (lim f) (S n) (g m) ξ⁺ ∅..)) (lim (λ m, φ (lim f) (S n) (g m) ∅ ∅..)).
+Proof. intros. unfold φ, 广义多元φ. rewrite veblen_l_Z_x. reflexivity. Qed.
+
+Corollary φ_Latω_LatSn_0at0 : ∀ f n g, φ (lim f) n (lim g) ∅.. = lim (λ m, φ (lim f) n (g m) ∅..).
+Proof. intros. destruct n. reflexivity. rewrite f_Z_eq_f_Z_z, φ_Latω_LatSn_Xat0. reflexivity. Qed.
+
+Corollary φ_Latω_LatSn_Sat0 : ∀ f n g α, φ (lim f) (S n) (lim g) ∅.._ α⁺ =
+  lim (λ m, φ (lim f) (S n) (g m) (φ (lim f) (S n) (lim g) ∅.._ α)⁺ ∅..).
+Proof. intros. rewrite φ_Latω_LatSn_Xat0. reflexivity. Qed.
+
+Corollary φ_Latω_LatSn_Lat0 : ∀ f n g h, φ (lim f) (S n) (lim g) ∅.._ (lim h) =
+  lim (λ m, φ (lim f) (S n) (lim g) ∅.._ (h m)).
+Proof. intros. rewrite φ_Latω_LatSn_Xat0. reflexivity. Qed.
 
 Example φ_Sωatω : φ ω⁺ 0 ∅ = lim (λ n, φ ω n [1] ∅..).
 Proof. reflexivity. Qed.
