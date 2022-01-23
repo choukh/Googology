@@ -1,0 +1,26 @@
+opam-version: "2.0"
+maintainer: "choukyuhei@gmail.com"
+version: "dev"
+
+homepage: "https://github.com/choukh/Googology"
+dev-repo: "git+https://github.com/choukh/Googology.git"
+bug-reports: "https://github.com/choukh/Googology/issues"
+license: "CC0-1.0 License"
+
+synopsis: "Constructive ordinals and formalized googology"
+description: """
+An axiom-free formalization of ordinals and googology function in Coq for personal study.
+"""
+
+build: [make "JOBS=%{jobs}%" ]
+install: [make "install"]
+depends: [
+  "coq" {(>= "8.10" & < "8.15~") | (= "dev")}
+  # "coq-equations" {(>= "1.2" & < "1.3~") | (= "dev")}
+]
+
+tags: [
+]
+authors: [
+  "oCaU"
+]
