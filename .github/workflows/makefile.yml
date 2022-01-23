@@ -14,14 +14,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: configure
-      run: ./configure
-      
-    - name: Install dependencies
-      run: make
-      
-    - name: Run check
-      run: make check
-      
-    - name: Run distcheck
-      run: make distcheck
+    - name: Docker-Coq Action
+      uses: coq-community/docker-coq-action@v1.2.4
