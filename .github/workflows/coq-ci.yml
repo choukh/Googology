@@ -22,3 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: coq-community/docker-coq-action@v1
+        with:
+          opam_file: 'coq-googology.opam'
+          custom_image: ${{ matrix.image }}
