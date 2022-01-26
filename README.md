@@ -3,7 +3,7 @@
 ## Feature
 - Constructive approach based on CIC
 - Does not require axioms or LEM
-- Up to Small Veblen Ordinal
+- Up to SVO (planning to extend to LVO)
 - Ready for googology function such as fast growing hierarchy
 
 ## Contents
@@ -46,6 +46,8 @@
     - Γ is defined as Itω(λ ξ, φ(ξ, 0))
   - ExtendedVeblenFunction.v
     - SVO is defined
+  - OmegaAryVeblenFunction.v
+    - Up to ω3-ary veblen function is defined
   - TransfiniteVeblenFunction.v
     - TODO
 - Function/
@@ -54,7 +56,7 @@
 
 ## Requirement
 ```
-Coq 8.14.1
+Coq 8.10 ~ 8.15
 ```
 
 ## Compile

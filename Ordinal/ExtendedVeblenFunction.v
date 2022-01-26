@@ -13,53 +13,53 @@ Fixpoint 多元 n T : Set :=
   | S n => 序数 → 多元 n T
   end.
 
-Reserved Notation "f '∅..'" (at level 20).
-Fixpoint 充零 {n} {T} (f : 多元 n T) : T :=
-  match n, f with
-  | O, f => f
-  | S m, f => f ∅ ∅..
+Reserved Notation "F '∅..'" (at level 20).
+Fixpoint 充零 {n} {T} (F : 多元 n T) : T :=
+  match n, F with
+  | O, F => F
+  | S m, F => F ∅ ∅..
   end
-where "f ∅.." := (充零 f) : 序数域.
+where "F ∅.." := (充零 F) : 序数域.
 
-Reserved Notation "f '∅.._'" (at level 20).
-Fixpoint 充零留一 {n} {T} (f : 多元 (S n) T) : 多元 1 T :=
-  λ α, match n, f with
-  | O, f => f α
-  | S m, f => f ∅ ∅.._ α
+Reserved Notation "F '∅.._'" (at level 20).
+Fixpoint 充零留一 {n} {T} (F : 多元 (S n) T) : 多元 1 T :=
+  match n, F with
+  | O, F => F
+  | S m, F => F ∅ ∅.._
   end
-where "f ∅.._" := (充零留一 f) : 序数域.
+where "F ∅.._" := (充零留一 F) : 序数域.
 
 Reserved Notation "f '∅..__'" (at level 20).
-Fixpoint 充零留二 {n} {T} (f : 多元 (S (S n)) T) : 多元 2 T :=
-  λ α β, match n, f with
-  | O, f => f α β
-  | S m, f => f ∅ ∅..__ α β
+Fixpoint 充零留二 {n} {T} (F : 多元 (S (S n)) T) : 多元 2 T :=
+  match n, F with
+  | O, F => F
+  | S m, F => F ∅ ∅..__
   end
-where "f ∅..__" := (充零留二 f) : 序数域.
+where "F ∅..__" := (充零留二 F) : 序数域.
 
 (* 步进增元函数 *)
 Fixpoint veblen {n} : 多元 (S n) 序数 → 多元 (S (S n)) 序数 :=
-  let fix 增元迭代 (f₁ : 多元 1 序数) n : 多元 (S n) 序数 :=
+  let fix 增元迭代 (F : 多元 1 序数) n : 多元 (S n) 序数 :=
     match n with
-    | O => f₁
-    | S m => veblen (增元迭代 f₁ m)
+    | O => F
+    | S m => veblen (增元迭代 F m)
     end in
-  fix inner (f : 多元 (S n) 序数) (α : 序数) : 多元 (S n) 序数 :=
+  fix inner (F : 多元 (S n) 序数) (α : 序数) : 多元 (S n) 序数 :=
     match α with
-    | ∅ => f
-    | α⁺ => 增元迭代 (λ β, inner f α β ∅..)′ n
-    | lim g =>
-      let h₀ := lim (λ m, inner f (g m) ∅..) in
-      let h := λ β, lim (λ m, inner f (g m) β⁺ ∅..) in
-      增元迭代 (递归 h h₀) n
+    | ∅ => F
+    | α⁺ => 增元迭代 (λ β, inner F α β ∅..)′ n
+    | lim f =>
+      let G₀ := lim (λ m, inner F (f m) ∅..) in
+      let G := λ β, lim (λ m, inner F (f m) β⁺ ∅..) in
+      增元迭代 (递归 G G₀) n
     end.
 
 (* 此即veblen函数的内联递归, 受停机检查器限制, 它无法先于veblen定义 *)
 (* n表示从第0到第n的位置上有参数 *)
-Fixpoint 增元迭代 f n : 多元 (S n) 序数 :=
+Fixpoint 增元迭代 F n : 多元 (S n) 序数 :=
   match n with
-  | O => f
-  | S m => veblen (增元迭代 f m)
+  | O => F
+  | S m => veblen (增元迭代 F m)
   end.
 
 Definition φ := 增元迭代 (cantor ∅).
@@ -80,37 +80,37 @@ Proof. reflexivity. Qed.
 
 (** x,y表示单个任意参数, z表示零, s表示后继, l表示极限, 大写表示不定多个 **)
 
-Lemma f_Z_eq_f_Z_z : ∀ n T (f : 多元 (S n) T), f ∅.. = f ∅.._ ∅.
+Lemma f_Z_eq_f_Z_z : ∀ n T (F : 多元 (S n) T), F ∅.. = F ∅.._ ∅.
 Proof. intros. induction n. reflexivity. simpl. rewrite <- IHn. reflexivity. Qed.
 
-Lemma f_Z_eq_f_z_Z : ∀ n T (f : 多元 (S n) T), f ∅.. = f ∅ ∅...
+Lemma f_Z_eq_f_z_Z : ∀ n T (F : 多元 (S n) T), F ∅.. = F ∅ ∅...
 Proof. intros. induction n. reflexivity. simpl. rewrite <- IHn. reflexivity. Qed.
 
-Lemma veblen_z : ∀ n (f : 多元 (S n) 序数), veblen f ∅ = f.
+Lemma veblen_z : ∀ n (F : 多元 (S n) 序数), veblen F ∅ = F.
 Proof. destruct n; reflexivity. Qed.
 
-Lemma 增元迭代_Z_x : ∀ f n, (增元迭代 f n) ∅.._ = f.
+Lemma 增元迭代_Z_x : ∀ F n, (增元迭代 F n) ∅.._ = F.
 Proof.
   intros. induction n. reflexivity.
   simpl. rewrite veblen_z, IHn. reflexivity.
 Qed.
 
-Lemma veblen_s_Z_x : ∀ n (f : 多元 (S n) 序数) α,
-  veblen f α⁺ ∅.._ = (λ β, veblen f α β ∅..)′.
+Lemma veblen_s_Z_x : ∀ n (F : 多元 (S n) 序数) α,
+  veblen F α⁺ ∅.._ = (λ β, veblen F α β ∅..)′.
 Proof.
   intros. destruct n. reflexivity.
   simpl. rewrite veblen_z. rewrite 增元迭代_Z_x. reflexivity.
 Qed.
 
-Lemma veblen_l_Z_x : ∀ n (f : 多元 (S n) 序数) g, veblen f (lim g) ∅.._ =
-  递归 (λ ξ, lim (λ m, veblen f (g m) ξ⁺ ∅..)) (lim (λ m, veblen f (g m) ∅ ∅..)).
+Lemma veblen_l_Z_x : ∀ n (F : 多元 (S n) 序数) f, veblen F (lim f) ∅.._ =
+  递归 (λ ξ, lim (λ m, veblen F (f m) ξ⁺ ∅..)) (lim (λ m, veblen F (f m) ∅ ∅..)).
 Proof.
   intros. destruct n. reflexivity.
   simpl. rewrite veblen_z. rewrite 增元迭代_Z_x. reflexivity.
 Qed.
 
-Lemma 增元迭代_x_s_Z_y : ∀ n f α β, 增元迭代 f (S (S n)) α β⁺ ∅.._ =
-  (λ γ, 增元迭代 f (S (S n)) α β γ ∅..)′.
+Lemma 增元迭代_x_s_Z_y : ∀ n F α β, 增元迭代 F (S (S n)) α β⁺ ∅.._ =
+  (λ γ, 增元迭代 F (S (S n)) α β γ ∅..)′.
 Proof.
   intros. destruct α.
   - simpl. rewrite veblen_s_Z_x. reflexivity.
@@ -118,8 +118,8 @@ Proof.
   - unfold 增元迭代. simpl. rewrite veblen_s_Z_x. reflexivity.
 Qed.
 
-Lemma 增元迭代_x_l_Z_y : ∀ n f α g, 增元迭代 f (S (S n)) α (lim g) ∅.._ =
-  递归 (λ ξ, lim (λ m, 增元迭代 f (S (S n)) α (g m) ξ⁺ ∅..)) (lim (λ m, 增元迭代 f (S (S n)) α (g m) ∅ ∅..)).
+Lemma 增元迭代_x_l_Z_y : ∀ n F α f, 增元迭代 F (S (S n)) α (lim f) ∅.._ =
+  递归 (λ ξ, lim (λ m, 增元迭代 F (S (S n)) α (f m) ξ⁺ ∅..)) (lim (λ m, 增元迭代 F (S (S n)) α (f m) ∅ ∅..)).
 Proof.
   intros. destruct α.
   - simpl. rewrite veblen_l_Z_x. reflexivity.
@@ -127,22 +127,22 @@ Proof.
   - unfold 增元迭代. simpl. rewrite veblen_l_Z_x. reflexivity.
 Qed.
 
-Lemma 增元迭代_Z_s_x : ∀ f n α, veblen (增元迭代 f n) ∅..__ α⁺ = (veblen (增元迭代 f n) ∅..__ α)′.
+Lemma 增元迭代_Z_s_x : ∀ F n α, veblen (增元迭代 F n) ∅..__ α⁺ = (veblen (增元迭代 F n) ∅..__ α)′.
 Proof.
   intros. induction n. reflexivity.
   simpl in *. rewrite IHn. reflexivity.
 Qed.
 
-Lemma veblen_s_Z_s_x : ∀ n (f : 多元 (S (S n)) 序数) α β,
-  veblen f α⁺ ∅..__ β⁺ = (veblen f α⁺ ∅..__ β)′.
+Lemma veblen_s_Z_s_x : ∀ n (F : 多元 (S (S n)) 序数) α β,
+  veblen F α⁺ ∅..__ β⁺ = (veblen F α⁺ ∅..__ β)′.
 Proof. intros. simpl. rewrite 增元迭代_Z_s_x. reflexivity. Qed.
 
-Lemma veblen_l_Z_s_x : ∀ n (f : 多元 (S (S n)) 序数) g β,
-  veblen f (lim g) ∅..__ β⁺ = (veblen f (lim g) ∅..__ β)′.
+Lemma veblen_l_Z_s_x : ∀ n (F : 多元 (S (S n)) 序数) f β,
+  veblen F (lim f) ∅..__ β⁺ = (veblen F (lim f) ∅..__ β)′.
 Proof. intros. simpl. rewrite 增元迭代_Z_s_x. reflexivity. Qed.
 
-Lemma 增元迭代_x_Z_s_y : ∀ n f α β,
-  (增元迭代 f (S (S n))) α ∅..__ β⁺ = ((增元迭代 f (S (S n))) α ∅..__ β)′.
+Lemma 增元迭代_x_Z_s_y : ∀ n F α β,
+  (增元迭代 F (S (S n))) α ∅..__ β⁺ = ((增元迭代 F (S (S n))) α ∅..__ β)′.
 Proof.
   intros. destruct α.
   - induction n. reflexivity. simpl in *. rewrite IHn. reflexivity.
@@ -150,23 +150,23 @@ Proof.
   - unfold 增元迭代. rewrite veblen_l_Z_s_x. reflexivity.
 Qed.
 
-Lemma 增元迭代_Z_l_x : ∀ f n g, veblen (增元迭代 f n) ∅..__ (lim g) =
-  递归 (λ ξ, lim (λ m, veblen (增元迭代 f n) ∅..__ (g m) ξ⁺)) (lim (λ m, veblen (增元迭代 f n) ∅..__ (g m) ∅)).
+Lemma 增元迭代_Z_l_x : ∀ F n f, veblen (增元迭代 F n) ∅..__ (lim f) =
+  递归 (λ ξ, lim (λ m, veblen (增元迭代 F n) ∅..__ (f m) ξ⁺)) (lim (λ m, veblen (增元迭代 F n) ∅..__ (f m) ∅)).
 Proof.
   intros. induction n. reflexivity.
   simpl in *. rewrite IHn. reflexivity.
 Qed.
 
-Lemma veblen_s_Z_l_x : ∀ n (f : 多元 (S (S n)) 序数) α g, veblen f α⁺ ∅..__ (lim g) =
-  递归 (λ ξ, lim (λ m, veblen f α⁺ ∅..__ (g m) ξ⁺)) (lim (λ m, veblen f α⁺ ∅..__ (g m) ∅)).
+Lemma veblen_s_Z_l_x : ∀ n (F : 多元 (S (S n)) 序数) α f, veblen F α⁺ ∅..__ (lim f) =
+  递归 (λ ξ, lim (λ m, veblen F α⁺ ∅..__ (f m) ξ⁺)) (lim (λ m, veblen F α⁺ ∅..__ (f m) ∅)).
 Proof. intros. simpl. rewrite 增元迭代_Z_l_x. reflexivity. Qed.
 
-Lemma veblen_l_Z_l_x : ∀ n (f : 多元 (S (S n)) 序数) g h, veblen f (lim g) ∅..__ (lim h) =
-  递归 (λ ξ, lim (λ m, veblen f (lim g) ∅..__ (h m) ξ⁺)) (lim (λ m, veblen f (lim g) ∅..__ (h m) ∅)).
+Lemma veblen_l_Z_l_x : ∀ n (F : 多元 (S (S n)) 序数) f g, veblen F (lim f) ∅..__ (lim g) =
+  递归 (λ ξ, lim (λ m, veblen F (lim f) ∅..__ (g m) ξ⁺)) (lim (λ m, veblen F (lim f) ∅..__ (g m) ∅)).
 Proof. intros. simpl. rewrite 增元迭代_Z_l_x. reflexivity. Qed.
 
-Lemma 增元迭代_x_Z_l_y : ∀ n f α g, (增元迭代 f (S (S n))) α ∅..__ (lim g) =
-  递归 (λ ξ, lim (λ m, (增元迭代 f (S (S n))) α ∅..__ (g m) ξ⁺)) (lim (λ m, (增元迭代 f (S (S n))) α ∅..__ (g m) ∅)).
+Lemma 增元迭代_x_Z_l_y : ∀ n F α f, (增元迭代 F (S (S n))) α ∅..__ (lim f) =
+  递归 (λ ξ, lim (λ m, (增元迭代 F (S (S n))) α ∅..__ (f m) ξ⁺)) (lim (λ m, (增元迭代 F (S (S n))) α ∅..__ (f m) ∅)).
 Proof.
   intros. destruct α.
   - induction n. reflexivity. simpl in *. rewrite IHn. reflexivity.

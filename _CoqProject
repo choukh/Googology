@@ -10,7 +10,8 @@ Ordinal/Iteration.v
 Ordinal/EpsilonNumbers.v
 Ordinal/VeblenFunction.v
 Ordinal/ExtendedVeblenFunction.v
-Ordinal/TransfiniteVeblenFunction_omega.v
+Ordinal/OmegaAryVeblenFunction.v
+Ordinal/TransfiniteVeblenFunction.v
 
 Function/FGH.v
 Example/FGH_subOmega.v
