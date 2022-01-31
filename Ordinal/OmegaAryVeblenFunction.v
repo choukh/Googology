@@ -210,7 +210,7 @@ Fixpoint veblen {n} : ω后继元 (S n) → ω后继元 (S (S n)).
   set (fix 增元迭代 (F : ω后继元 1) n : ω后继元 (S n) :=
     match n with
     | O => F
-    | S m => veblen m (增元迭代 F m)
+    | S n => veblen n (增元迭代 F n)
     end) as 增元迭代.
   refine (fix inner (F : ω后继元 (S n)) (α : 序数) : ω后继元 (S n) := _).
   destruct α as [|α|g].
@@ -481,7 +481,7 @@ Fixpoint veblen {n} : ω2后继元 (S n) → ω2后继元 (S (S n)).
   set (fix 增元迭代 (F : ω2后继元 1) n : ω2后继元 (S n) :=
     match n with
     | O => F
-    | S m => veblen m (增元迭代 F m)
+    | S n => veblen n (增元迭代 F n)
     end) as 增元迭代.
   refine (fix inner (F : ω2后继元 (S n)) (α : 序数) : ω2后继元 (S n) := _).
   destruct α as [|α|g].

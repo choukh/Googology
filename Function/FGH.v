@@ -10,6 +10,7 @@ Require Import GOO.Ordinal.Arithmetic.
 Require Import GOO.Ordinal.Iteration.
 Require Import GOO.Ordinal.VeblenFunction.
 Require GOO.Ordinal.ExtendedVeblenFunction.
+Require GOO.Ordinal.TransfiniteVeblenFunction.
 
 Local Open Scope 序数域.
 
@@ -227,6 +228,7 @@ Qed.
 
 End 四元Veblen层级.
 
+Module SVO.
 Import ExtendedVeblenFunction.
 
 Fact f_SVO_0 : f SVO 0 = 1.
@@ -240,3 +242,22 @@ Proof. reflexivity. Qed.
 
 Fact f_SVO_n : ∀ n, f SVO n = f (φ n [1] ∅..) n.
 Proof. reflexivity. Qed.
+
+End SVO.
+
+Module LVO.
+Import TransfiniteVeblenFunction.
+
+Fact f_LVO_0 : f LVO 0 = 1.
+Proof. reflexivity. Qed.
+
+Fact f_LVO_1 : f LVO 1 = 2.
+Proof. reflexivity. Qed.
+
+Fact f_LVO_2 : f LVO 2 = 8.
+Proof. reflexivity. Qed.
+
+Fact f_LVO_n : ∀ n, f LVO n = f (迭代 (λ ξ, φ ξ [1] ∅..) ∅ n) n.
+Proof. reflexivity. Qed.
+
+End LVO.

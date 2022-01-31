@@ -3,7 +3,7 @@
 ## Feature
 - Constructive approach based on CIC
 - Does not require axioms or LEM
-- Up to SVO (planning to extend to LVO)
+- Up to LVO
 - Ready for googology function such as fast growing hierarchy
 
 ## Contents
@@ -49,7 +49,7 @@
   - OmegaAryVeblenFunction.v
     - Up to ω3-ary veblen function is defined
   - TransfiniteVeblenFunction.v
-    - TODO
+    - LVO is defined
 - Function/
   - FGH.v
     - Fast growing hierachy that suitable for ordinals we defined
