@@ -15,7 +15,7 @@ An axiom-free formalization of ordinals and googology function in Coq for person
 build: [make "JOBS=%{jobs}%" ]
 install: [make "install"]
 depends: [
-  "coq" {(>= "8.10" & < "8.15~") | (= "dev")}
+  "coq" {(>= "8.10" & <= "8.15~") | (= "dev")}
   # "coq-equations" {(>= "1.2" & < "1.3~") | (= "dev")}
 ]
 
