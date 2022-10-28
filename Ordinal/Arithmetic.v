@@ -294,10 +294,9 @@ Qed.
 Theorem 加法为序数嵌入 : ∀ α, 序数嵌入 (加法 α).
 Proof. split3. apply 加法_弱保序_右. apply 加法_强保序_右. easy. Qed.
 
-Theorem 乘法为序数嵌入 : ∀ α, [1] ≤ α → 序数嵌入 (乘法 α).
+Theorem 乘法为序数嵌入 : ∀ α, [0] < α → 序数嵌入 (乘法 α).
 Proof.
-  split3. apply 乘法_弱保序_右.
-  apply 乘法_强保序_右. apply 小于即后继小于等于. easy. easy.
+  split3. apply 乘法_弱保序_右. apply 乘法_强保序_右. easy. easy.
 Qed.
 
 Theorem 幂运算为序数嵌入 : ∀ α, [1] < α → 序数嵌入 (幂运算 α).

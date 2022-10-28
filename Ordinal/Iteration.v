@@ -301,7 +301,10 @@ Variable ξ大于一 : [1] < ξ.
 Definition π := (乘法 ξ)′.
 
 Lemma π数为左乘法不动点 : ∀ α, ξ * (π α) ≃ π α.
-Proof. apply 不动点枚举枚举之. apply 乘法为序数嵌入. auto. Qed.
+Proof.
+  apply 不动点枚举枚举之. apply 乘法为序数嵌入.
+  eapply 强序_传递. apply 后继大于自身. auto.
+Qed.
 
 Lemma π_零 : π [0] ≃ [0].
 Proof.
@@ -313,7 +316,7 @@ Lemma π_一 : π [1] ≃ ξ ^ ω.
 Proof.
   intros. unfold ω. rewrite 极限次幂. split.
   - apply 后继不动点为之.
-    + apply 乘法为序数嵌入. auto.
+    + apply 乘法为序数嵌入. eapply 强序_传递. apply 后继大于自身. auto.
     + rewrite 乘极限. split; constructor; intros n.
       * apply 弱序_极限_介入 with (S n). simpl. rewrite 后继次幂. apply 乘法有限结合律.
       * apply 弱序_极限_介入 with n. apply 乘法_弱放大_左. auto.
@@ -330,7 +333,7 @@ Lemma π_后继 : ∀ α, π α⁺ ≃ π α + π [1].
 Proof.
   intros. split.
   - unfold π at 1. rewrite 不动点枚举_后继. apply 后继不动点为之.
-    + apply 乘法为序数嵌入. auto.
+    + apply 乘法为序数嵌入. eapply 强序_传递. apply 后继大于自身. auto.
     + rewrite 乘法分配律, (加法_改写_左 (π α)), (加法_改写_右 (π [1])). reflexivity. 1-2: apply π数为左乘法不动点.
     + apply 加法_强放大_右. apply 小于即后继小于等于. rewrite π_一.
       apply 弱序_极限_介入 with 0. reflexivity.
@@ -340,7 +343,8 @@ Proof.
       * rewrite 后继次幂, <- 乘法有限结合律. apply 乘法_弱保序_右. apply IHn.
     + induction n; simpl.
       * rewrite 零次幂, 加一. apply 小于即后继小于等于.
-        apply 不动点枚举在后继处递增. apply 乘法为序数嵌入. auto.
+        apply 不动点枚举在后继处递增. apply 乘法为序数嵌入.
+        eapply 强序_传递. apply 后继大于自身. auto.
       * rewrite 后继次幂, <- (π数为左乘法不动点 α⁺), (加法_改写_左 (ξ * π α)), (加法_改写_右 (ξ * ξ ^ [n])).
         rewrite <- 乘法分配律. apply 乘法_弱保序_右. apply IHn.
         rewrite 乘法有限结合律. reflexivity. rewrite π数为左乘法不动点. reflexivity.
